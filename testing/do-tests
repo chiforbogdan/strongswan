@@ -249,6 +249,8 @@ do
 	testname=$SUBDIR/$name
 	log_action " $testnumber $testname:"
 
+	teststart=$(date +%s)
+
 	if [ ! -d $DEFAULTTESTSDIR/${testname} ]
 	then
 	    echo "is missing..skipped"
@@ -794,6 +796,9 @@ do
 	##########################################################################
 	# write test status to html file
 	#
+	testend=$(date +%s)
+	let "testend -= teststart"
+	let "testtotal += testend"
 
 	if [ $STATUS = "passed" ]
 	then
@@ -808,6 +813,7 @@ do
   <tr>
     <td>$testnumber</td>
     <td><a href="$testname/index.html">$testname</a></td>
+    <td align="right">$testend</td>
     <td><a href="$testname/console.log"><font color="$COLOR">$STATUS</font></a></td>
     <td>&nbsp;</td>
   </tr>
@@ -816,6 +822,7 @@ do
   <tr>
     <td>$testnumber</td>
     <td><a href="$name/index.html">$name</a></td>
+    <td align="right">$testend</td>
     <td><a href="$name/console.log"><font color="$COLOR">$STATUS</font></a></td>
     <td>&nbsp;</td>
   </tr>
@@ -844,6 +851,9 @@ done
 cat >> $TESTRESULTSHTML << @EOF
     <tr>
       <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td><b>Time</b></td><td><b><font color="blue">$testtotal</font></b></td><td>&nbsp;</td><td>&nbsp;</td>
     </tr>
     <tr>
       <td><b>Passed</b></td><td><b><font color="green">$passed_cnt</font></b></td><td>&nbsp;</td><td>&nbsp;</td>

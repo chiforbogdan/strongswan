@@ -1,4 +1,5 @@
 charon {
+  keep_alive = 2
   retransmit_tries = 1
   retransmit_timeout = 2.0
   retransmit_base = 1
